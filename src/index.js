@@ -150,6 +150,10 @@ topMenuEl.addEventListener("click", (e) => {
   if (e.target.classList.contains("active") && linkObj.subLinks) {
     buildSubmenu(linkObj.subLinks);
   }
+  // If the ABOUT link is clicked, an <h1>About</h1> should be displayed.
+  if (e.target.textContent === "about") {
+    h1El.textContent = "About";
+  }
 });
 
 // Add interactions to the submenu items themselves
