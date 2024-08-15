@@ -3,9 +3,32 @@
 // Menu data structure
 var menuLinks = [
   { text: "about", href: "/about" },
-  { text: "catalog", href: "/catalog" },
-  { text: "orders", href: "/orders" },
-  { text: "account", href: "/account" },
+  {
+    text: "catalog",
+    href: "#",
+    subLinks: [
+      { text: "all", href: "/catalog/all" },
+      { text: "top selling", href: "/catalog/top" },
+      { text: "search", href: "/catalog/search" },
+    ],
+  },
+  {
+    text: "orders",
+    href: "#",
+    subLinks: [
+      { text: "new", href: "/orders/new" },
+      { text: "pending", href: "/orders/pending" },
+      { text: "history", href: "/orders/history" },
+    ],
+  },
+  {
+    text: "account",
+    href: "#",
+    subLinks: [
+      { text: "profile", href: "/account/profile" },
+      { text: "sign out", href: "/account/signout" },
+    ],
+  },
 ];
 
 /** Part 1: Getting Started */
@@ -65,3 +88,16 @@ subMenuEl.classList.add("flex-around");
 subMenuEl.style.position = "absolute";
 // 6. Set the CSS top property of subMenuEl to the value of 0.
 subMenuEl.style.top = "0";
+
+/** Adding Menu Interaction */
+// 1. Select and cache the all of the <a> elements inside of topMenuEl in a variable named topMenuLinks.
+const topMenuLinks = topMenuEl.querySelectorAll("a");
+// 2. Attach a delegated 'click' event listener to topMenuEl.
+topMenuEl.addEventListener("click", (e) => {
+  //call the event object's preventDefault() method
+  e.preventDefault();
+  //immediately return if the element clicked was not an <a> element.
+  if (e.target.tagName.toLowerCase() !== "a") return;
+  //log the content of the <a> to verify the handler is working.
+  console.log(e.target);
+});
