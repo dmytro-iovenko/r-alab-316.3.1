@@ -100,4 +100,14 @@ topMenuEl.addEventListener("click", (e) => {
   if (e.target.tagName.toLowerCase() !== "a") return;
   //log the content of the <a> to verify the handler is working.
   console.log(e.target);
+  //add the active class to the <a> element that was clicked, unless it was already active, in which case it should remove it.
+  if (e.target.classList.contains("active")) {
+    e.target.classList.remove("active");
+  } else {
+    e.target.classList.add("active");
+  }
+  //emove the active class from each other <a> element in topMenuLinks - whether the active class exists or not
+  topMenuLinks.forEach((link) => {
+    if (e.target !== link) link.classList.remove("active");
+  });
 });
