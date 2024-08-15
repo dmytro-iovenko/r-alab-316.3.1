@@ -111,23 +111,43 @@ topMenuEl.addEventListener("click", (e) => {
     if (e.target !== link) link.classList.remove("active");
   });
   /** Adding Submenu Interaction */
+  //Cache the clicked <a> element's "link" object
+  let linkObj = {};
+  menuLinks.forEach((link) => {
+    if (link.text === e.target.textContent && link.subLinks) {
+      linkObj = link;
+      return;
+    }
+  });
   // 1. Check, if the clicked <a> element does not yet have a class of "active" (it was inactive when clicked)
-  if (e.target.classList.contains("active")) {
-    //Cache the clicked <a> element's "link" object
-    let linkObj = {};
-    menuLinks.forEach((link) => {
-      if (link.text === e.target.textContent && link.subLinks) {
-        linkObj = link;
-        return;
-      }
+  //a. If the clicked <a> element's "link" object within menuLinks has a subLinks property (all do, except for the "link" object for ABOUT), set the CSS top property of subMenuEl to 100%.
+  if (e.target.classList.contains("active") && linkObj.subLinks) {
+    subMenuEl.style.top = "100%";
+  }
+  // b. Otherwise, set the CSS top property of subMenuEl to 0.
+  else {
+    subMenuEl.style.top = "0";
+  }
+
+  // Create a helper function so that submenu is dynamic based on the clicked link
+  const buildSubmenu = (subLinks) => {
+    // Clear the current contents of subMenuEl.
+    subMenuEl.innerHTML = "";
+    // Iterate over the subLinks array, passed as an argument, and for each "link" object:
+    subLinks.forEach((link) => {
+      // Create an <a> element.
+      const aEl = document.createElement("a");
+      // Add an href attribute to the <a>, with the value set by the href property of the "link" object.
+      aEl.setAttribute("href", link.href);
+      // Set the element's content to the value of the text property of the "link" object.
+      aEl.textContent = link.text;
+      // Append the new element to the subMenuEl.
+      subMenuEl.appendChild(aEl);
     });
-    //a. If the clicked <a> element's "link" object within menuLinks has a subLinks property (all do, except for the "link" object for ABOUT), set the CSS top property of subMenuEl to 100%.
-    if (linkObj.subLinks) {
-      subMenuEl.style.top = "100%";
-    }
-    // b. Otherwise, set the CSS top property of subMenuEl to 0.
-    else {
-      subMenuEl.style.top = "0";
-    }
+  };
+  // Include the helper function in the event listener within the same logic that shows the submenu,
+  // remembering to pass the array of sub-links as an argument
+  if (e.target.classList.contains("active") && linkObj.subLinks) {
+    buildSubmenu(linkObj.subLinks);
   }
 });
