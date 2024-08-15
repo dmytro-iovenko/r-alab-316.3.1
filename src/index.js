@@ -106,8 +106,28 @@ topMenuEl.addEventListener("click", (e) => {
   } else {
     e.target.classList.add("active");
   }
-  //emove the active class from each other <a> element in topMenuLinks - whether the active class exists or not
+  //remove the active class from each other <a> element in topMenuLinks - whether the active class exists or not
   topMenuLinks.forEach((link) => {
     if (e.target !== link) link.classList.remove("active");
   });
+  /** Adding Submenu Interaction */
+  // 1. Check, if the clicked <a> element does not yet have a class of "active" (it was inactive when clicked)
+  if (e.target.classList.contains("active")) {
+    //Cache the clicked <a> element's "link" object
+    let linkObj = {};
+    menuLinks.forEach((link) => {
+      if (link.text === e.target.textContent && link.subLinks) {
+        linkObj = link;
+        return;
+      }
+    });
+    //a. If the clicked <a> element's "link" object within menuLinks has a subLinks property (all do, except for the "link" object for ABOUT), set the CSS top property of subMenuEl to 100%.
+    if (linkObj.subLinks) {
+      subMenuEl.style.top = "100%";
+    }
+    // b. Otherwise, set the CSS top property of subMenuEl to 0.
+    else {
+      subMenuEl.style.top = "0";
+    }
+  }
 });
