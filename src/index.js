@@ -151,3 +151,22 @@ topMenuEl.addEventListener("click", (e) => {
     buildSubmenu(linkObj.subLinks);
   }
 });
+
+// Add interactions to the submenu items themselves
+// 1. Attach a delegated 'click' event listener to subMenuEl.
+subMenuEl.addEventListener("click", (e) => {
+  // call the event object's preventDefault() method
+  e.preventDefault();
+  // immediately return if the element clicked was not an <a> element
+  if (e.target.tagName.toLowerCase() !== "a") return;
+  // log the content of the <a> to verify the handler is working
+  console.log(e.target);
+  // 2. Set the CSS top property of subMenuEl to 0
+  subMenuEl.style.top = "0";
+  // 3. Remove the active class from each <a> element in topMenuLinks.
+  topMenuLinks.forEach((link) => link.classList.remove("active"));
+  // 4. Update the contents of mainEl, within an <h1>, to the contents of the <a> element clicked within subMenuEl.
+  h1El.textContent = e.target.textContent;
+  // Style <h1> to make all words capitalized
+  h1El.style.textTransform = "capitalize";
+});
