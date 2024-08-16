@@ -119,18 +119,26 @@ topMenuEl.addEventListener("click", (e) => {
       return;
     }
   });
-  // 1. Check, if the clicked <a> element does not yet have a class of "active" (it was inactive when clicked)
-  //a. If the clicked <a> element's "link" object within menuLinks has a subLinks property (all do, except for the "link" object for ABOUT), set the CSS top property of subMenuEl to 100%.
+  // 1. Check, if the clicked <a> element has a class of "active" and
+  // if the clicked <a> element's "link" object within menuLinks has a subLinks property (all do, except for the "link" object for ABOUT),
   if (e.target.classList.contains("active") && linkObj.subLinks) {
+    // set the CSS top property of subMenuEl to 100%.
     subMenuEl.style.top = "100%";
+    // Include the helper function in the event listener within the same logic that shows the submenu,
+    // remembering to pass the array of sub-links as an argument
+    buildSubmenu(linkObj.subLinks);
   }
   // b. Otherwise, set the CSS top property of subMenuEl to 0.
   else {
     subMenuEl.style.top = "0";
   }
 
+  // If the ABOUT link is clicked, an <h1>About</h1> should be displayed.
+  if (e.target.textContent === "about") {
+    h1El.textContent = "About";
+  }
   // Create a helper function so that submenu is dynamic based on the clicked link
-  const buildSubmenu = (subLinks) => {
+  function buildSubmenu(subLinks) {
     // Clear the current contents of subMenuEl.
     subMenuEl.innerHTML = "";
     // Iterate over the subLinks array, passed as an argument, and for each "link" object:
@@ -144,15 +152,6 @@ topMenuEl.addEventListener("click", (e) => {
       // Append the new element to the subMenuEl.
       subMenuEl.appendChild(aEl);
     });
-  };
-  // Include the helper function in the event listener within the same logic that shows the submenu,
-  // remembering to pass the array of sub-links as an argument
-  if (e.target.classList.contains("active") && linkObj.subLinks) {
-    buildSubmenu(linkObj.subLinks);
-  }
-  // If the ABOUT link is clicked, an <h1>About</h1> should be displayed.
-  if (e.target.textContent === "about") {
-    h1El.textContent = "About";
   }
 });
 
